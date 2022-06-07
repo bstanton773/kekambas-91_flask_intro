@@ -12,7 +12,7 @@ def index():
     return render_template('index.html', user=user_dict, colors=colors)
 
 
-@app.route('/test')
-def test():
-    return 'This is a test'
+@app.route('/signup')
+def signup():
+    return render_template('signup.html')
 
