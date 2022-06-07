@@ -10,14 +10,20 @@
         <title>{% block title %}{% endblock %}</title>
     </head>
     <body>
+        
         <!-- Navbar Goes Here -->
         {% include 'nav.html' %}
 
         <!-- Start the container -->
         <div class="container">
+
+            <!-- If there is an alert message, display here in container -->
+            {% include 'messages.html' %}
+
             <!-- Placeholder block for the main content of the page -->
             {% block content %}
             {% endblock %}
+
         </div>
 
 
