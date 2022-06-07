@@ -12,7 +12,9 @@ def index():
     return render_template('index.html', user=user_dict, colors=colors)
 
 
-@app.route('/signup')
+@app.route('/signup', methods=['GET', 'POST'])
 def signup():
     form = SignUpForm()
+    if form.validate_on_submit():
+        print('HELLO THIS WAS A HUGE SUCCESS!')
     return render_template('signup.html', form=form)
