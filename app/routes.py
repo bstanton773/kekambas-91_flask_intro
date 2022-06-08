@@ -22,8 +22,10 @@ def signup():
         email = form.email.data
         username = form.username.data
         password = form.password.data
-        if username in {'abc', 'aaa'}:
-            flash('That user already exists', 'danger')
+        # Query the User table for any users with username/email from form
+        user_check = User.query.filter((User.email == email)|(User.username == username)).all()
+        if user_check:
+            flash('A user with that username and/or email already exists. Please try again.', 'danger')
             return redirect(url_for('signup'))
 
         # Add the user to the database
