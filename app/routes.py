@@ -17,7 +17,6 @@ def index():
 def signup():
     form = SignUpForm()
     if form.validate_on_submit():
-        print('HELLO THIS WAS A HUGE SUCCESS!')
         # Get the data from the form fields
         email = form.email.data
         username = form.username.data
