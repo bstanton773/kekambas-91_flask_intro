@@ -1,7 +1,7 @@
 from app import app
 from flask import render_template, redirect, url_for, flash
 from app.forms import SignUpForm
-from app.models import User
+from app.models import Post, User
 
 @app.route("/")
 def index():
@@ -9,8 +9,8 @@ def index():
         'username': 'brians',
         'email': 'brians@codingtemple.com'
     }
-    colors = ['red', 'orange', 'yellow', 'green', 'blue', 'indigo', 'violet']
-    return render_template('index.html', user=user_dict, colors=colors)
+    posts = Post.query.all()
+    return render_template('index.html', user=user_dict, posts=posts)
 
 
 @app.route('/signup', methods=['GET', 'POST'])
