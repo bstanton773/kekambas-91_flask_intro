@@ -28,5 +28,10 @@ class Post(db.Model):
     date_created = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id')) # FOREIGN KEY(user_id) REFERENCES user(id)
 
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        db.session.add(self)
+        db.session.commit()
+
     def __repr__(self):
         return f"<Post|{self.title}>"
