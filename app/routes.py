@@ -90,3 +90,24 @@ def logout():
 def view_single_post(post_id):
     post = Post.query.get_or_404(post_id) # SELECT * FROM post WHERE id = post_id  --(post_id comes from the URL)
     return render_template('single_post.html', post=post)
+
+
+@app.route('/edit-posts/<post_id>', methods=["GET", "POST"])
+@login_required
+def edit_single_post(post_id):
+    post_to_edit = Post.query.get_or_404(post_id)
+    if current_user != post_to_edit.author:
+        flash("You do not have permission to edit that post", "danger")
+        return redirect(url_for('index'))
+    form = PostForm()
+    if form.validate_on_submit():
+        # Get form data
+        new_title = form.title.data
+        new_body = form.body.data
+        # update the post to edit with the form data
+        post_to_edit.update(title=new_title, body=new_body)
+
+        flash(f'{post_to_edit.title} has been updated', 'primary')
+        return redirect(url_for('view_single_post', post_id=post_to_edit.id))
+
+    return render_template('edit_post.html', post=post_to_edit, form=form)
