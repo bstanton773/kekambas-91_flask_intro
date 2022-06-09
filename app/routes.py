@@ -1,6 +1,6 @@
 from app import app
 from flask import render_template, redirect, url_for, flash
-from app.forms import SignUpForm, PostForm
+from app.forms import SignUpForm, PostForm, LoginForm
 from app.models import Post, User
 from random import randint
 
@@ -59,4 +59,5 @@ def create_post():
 
 @app.route('/login', methods=["GET", "POST"])
 def login():
-    return render_template('login.html')
+    form = LoginForm()
+    return render_template('login.html', form=form)
