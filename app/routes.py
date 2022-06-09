@@ -1,9 +1,8 @@
 from app import app
 from flask import render_template, redirect, url_for, flash
-from flask_login import login_user, login_required, logout_user
+from flask_login import login_user, login_required, logout_user, current_user
 from app.forms import SignUpForm, PostForm, LoginForm
 from app.models import Post, User
-from random import randint
 
 @app.route("/")
 def index():
@@ -44,11 +43,11 @@ def create_post():
         # Get data from the form
         post_title = form.title.data
         post_body = form.body.data
-        user_id = randint(1,5)
+        user_id = current_user.id
         # Add new post to database with form info
         new_post = Post(title=post_title, body=post_body, user_id=user_id)
         # Flash a success message to the user
-        flash(f'{new_post.title} has been created', 'success')
+        flash(f'"{new_post.title}" by {new_post.author.username} has been created', 'success')
         # Return to the home page
         return redirect(url_for('index'))
 
