@@ -11,5 +11,8 @@ db = SQLAlchemy(app)
 migrate = Migrate(app, db)
 
 login = LoginManager(app)
+login.login_view = 'login'
+# login.login_message = "Hey you can't do that!"
+login.login_message_category = 'danger'
 
 from . import routes, models
