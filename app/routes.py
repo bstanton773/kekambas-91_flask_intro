@@ -1,5 +1,6 @@
 from app import app
 from flask import render_template, redirect, url_for, flash
+from flask_login import login_user
 from app.forms import SignUpForm, PostForm, LoginForm
 from app.models import Post, User
 from random import randint
@@ -60,4 +61,23 @@ def create_post():
 @app.route('/login', methods=["GET", "POST"])
 def login():
     form = LoginForm()
+    if form.validate_on_submit():
+        # Get the data from form
+        username = form.username.data
+        password = form.password.data
+        # Query our user table for a user with the username from the form
+        user = User.query.filter_by(username=username).first()
+        # If the user exists and the password for that user is correct
+        if user is not None and user.check_password(password):
+            # log the user in
+            login_user(user)
+            # Flash a success message
+            flash(f"Welcome back, {user.username}!", "primary")
+            # Redirect to the home page
+            return redirect(url_for('index'))
+        
+        # If user is None or password incorrect, flash message and redirect to login
+        flash('Incorrect username and/or password. Please try again.', 'danger')
+        return redirect(url_for('login'))
+
     return render_template('login.html', form=form)
