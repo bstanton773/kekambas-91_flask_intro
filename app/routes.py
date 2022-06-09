@@ -2,6 +2,7 @@ from app import app
 from flask import render_template, redirect, url_for, flash
 from app.forms import SignUpForm, PostForm
 from app.models import Post, User
+from random import randint
 
 @app.route("/")
 def index():
@@ -30,7 +31,7 @@ def signup():
         # Add the user to the database
         new_user = User(email=email, username=username, password=password)
 
-        # Show message of success/failure
+        # Show message of success
         flash(f'{new_user.username} has successfully signed up!', 'success')
         # redirect back to the homepage
         return redirect(url_for('index'))
@@ -38,7 +39,19 @@ def signup():
     return render_template('signup.html', form=form)
 
 
-@app.route('/create-post')
+@app.route('/create-post', methods=["GET", "POST"])
 def create_post():
     form = PostForm()
+    if form.validate_on_submit():
+        # Get data from the form
+        post_title = form.title.data
+        post_body = form.body.data
+        user_id = randint(1,5)
+        # Add new post to database with form info
+        new_post = Post(title=post_title, body=post_body, user_id=user_id)
+        # Flash a success message to the user
+        flash(f'{new_post.title} has been created', 'success')
+        # Return to the home page
+        return redirect(url_for('index'))
+
     return render_template('create_post.html', form=form)
