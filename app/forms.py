@@ -9,3 +9,9 @@ class SignUpForm(FlaskForm):
     password = PasswordField('Password', validators=[DataRequired()])
     confirm_pass = PasswordField('Confirm Password', validators=[DataRequired(), EqualTo('password')])
     submit = SubmitField()
+
+
+class PostForm(FlaskForm):
+    title = StringField('Title', validators=[DataRequired()])
+    body = StringField('Body', validators=[DataRequired()])
+    submit = SubmitField()

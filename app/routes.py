@@ -1,6 +1,6 @@
 from app import app
 from flask import render_template, redirect, url_for, flash
-from app.forms import SignUpForm
+from app.forms import SignUpForm, PostForm
 from app.models import Post, User
 
 @app.route("/")
@@ -40,4 +40,5 @@ def signup():
 
 @app.route('/create-post')
 def create_post():
-    return render_template('create_post.html')
+    form = PostForm()
+    return render_template('create_post.html', form=form)
