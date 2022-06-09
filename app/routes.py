@@ -36,3 +36,8 @@ def signup():
         return redirect(url_for('index'))
 
     return render_template('signup.html', form=form)
+
+
+@app.route('/create-post')
+def create_post():
+    return render_template('create_post.html')
