@@ -55,3 +55,8 @@ def create_post():
         return redirect(url_for('index'))
 
     return render_template('create_post.html', form=form)
+
+
+@app.route('/login', methods=["GET", "POST"])
+def login():
+    return render_template('login.html')
