@@ -84,3 +84,9 @@ def logout():
     logout_user()
     flash('You have logged out of the blog', 'secondary')
     return redirect(url_for('index'))
+
+
+@app.route('/posts/<post_id>')
+def view_single_post(post_id):
+    post = Post.query.get_or_404(post_id) # SELECT * FROM post WHERE id = post_id  --(post_id comes from the URL)
+    return render_template('single_post.html', post=post)
