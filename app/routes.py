@@ -1,18 +1,14 @@
 from app import app
 from flask import render_template, redirect, url_for, flash
-from flask_login import login_user
+from flask_login import login_user, login_required, logout_user
 from app.forms import SignUpForm, PostForm, LoginForm
 from app.models import Post, User
 from random import randint
 
 @app.route("/")
 def index():
-    user_dict = {
-        'username': 'brians',
-        'email': 'brians@codingtemple.com'
-    }
     posts = Post.query.all()
-    return render_template('index.html', user=user_dict, posts=posts)
+    return render_template('index.html', posts=posts)
 
 
 @app.route('/signup', methods=['GET', 'POST'])
@@ -41,6 +37,7 @@ def signup():
 
 
 @app.route('/create-post', methods=["GET", "POST"])
+@login_required
 def create_post():
     form = PostForm()
     if form.validate_on_submit():
@@ -81,3 +78,10 @@ def login():
         return redirect(url_for('login'))
 
     return render_template('login.html', form=form)
+
+
+@app.route('/logout')
+def logout():
+    logout_user()
+    flash('You have logged out of the blog', 'secondary')
+    return redirect(url_for('index'))

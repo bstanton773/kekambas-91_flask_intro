@@ -3,7 +3,11 @@
 {% block title %} Kekambas Blog | Home {% endblock %}
 
 {% block content %}
-<h1>Hello {{ user.username }}, how are you?</h1>
+{% if current_user.is_authenticated %}
+    <h1>Hello {{ current_user.username }}, how are you?</h1>
+{% else %}
+    <h1>Hello, please sign up to use our blog</h1>
+{% endif %}
             
 {% for post in posts %}
     <div class="card">
