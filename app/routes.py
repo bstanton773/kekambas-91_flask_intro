@@ -111,3 +111,15 @@ def edit_single_post(post_id):
         return redirect(url_for('view_single_post', post_id=post_to_edit.id))
 
     return render_template('edit_post.html', post=post_to_edit, form=form)
+
+
+@app.route('/delete-posts/<post_id>')
+@login_required
+def delete_single_post(post_id):
+    post_to_delete = Post.query.get_or_404(post_id)
+    if current_user != post_to_delete.author:
+        flash("You do not have permission to delete that post", "danger")
+        return redirect(url_for('index'))
+    post_to_delete.delete()
+    flash(f'{post_to_delete.title} has been deleted', 'info')
+    return redirect(url_for('index'))
