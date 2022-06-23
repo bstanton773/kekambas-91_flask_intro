@@ -41,9 +41,14 @@ def create_post():
 
 @api.route('/posts/<post_id>', methods=['PUT'])
 def update_post(post_id):
-    pass
-
+    post_to_edit = Post.query.get_or_404(post_id)
+    if not request.is_json:
+        return jsonify({'error': 'Your request content-type must be application/json'}), 400
+    post_to_edit.update(**request.json)
+    return jsonify(post_to_edit.to_dict())
 
 @api.route('/posts/<post_id>', methods=['DELETE'])
 def delete_post(post_id):
-    pass
+    post_to_delete = Post.query.get_or_404(post_id)
+    post_to_delete.delete()
+    return jsonify({'message': 'You have successfully deleted the post'})
