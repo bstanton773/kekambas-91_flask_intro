@@ -37,3 +37,13 @@ def create_post():
     # Add new post to database with request body info
     new_post = Post(title=title, body=body, user_id=user_id)
     return jsonify(new_post.to_dict()), 201
+
+
+@api.route('/posts/<post_id>', methods=['PUT'])
+def update_post(post_id):
+    pass
+
+
+@api.route('/posts/<post_id>', methods=['DELETE'])
+def delete_post(post_id):
+    pass
