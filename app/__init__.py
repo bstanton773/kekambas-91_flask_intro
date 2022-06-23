@@ -15,4 +15,7 @@ login.login_view = 'login'
 # login.login_message = "Hey you can't do that!"
 login.login_message_category = 'danger'
 
+from app.blueprints.api import bp as api
+app.register_blueprint(api)
+
 from . import routes, models
