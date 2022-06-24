@@ -1,10 +1,16 @@
 from . import bp as api
 from flask import jsonify, request
-from app.models import Post
+from app.models import Post, User
 
 @api.route('/')
 def index():
     return 'Hello World'
+
+
+@api.route('/users/<user_id>', methods=['GET'])
+def get_user(user_id):
+    user = User.query.get_or_404(user_id)
+    return jsonify(user.to_dict())
 
 
 @api.route('/posts', methods=['GET'])
