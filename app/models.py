@@ -69,5 +69,5 @@ class Post(db.Model):
             'title': self.title,
             'body': self.body,
             'date_created': self.date_created,
-            'user_id': self.user_id
+            'author': self.author.to_dict()
         }

@@ -7,6 +7,24 @@ def index():
     return 'Hello World'
 
 
+@api.route('/users', methods=['POST'])
+def create_user():
+    if not request.is_json:
+        return jsonify({'error': 'Your request content-type must be application/json'}), 400
+    data = request.json
+    for field in ['email', 'username', 'password']:
+        if field not in data:
+            return jsonify({'error': f'{field} must be in request body'}), 400
+    email = data.get('email')
+    username = data.get('username')
+    password = data.get('password')
+    user_check = User.query.filter((User.email == email)|(User.username == username)).all()
+    if user_check:
+        return jsonify({'error': 'A user with that username and/or email already exists.'}), 400
+    new_user = User(email=email, username=username, password=password)
+    return jsonify(new_user.to_dict()), 201
+
+
 @api.route('/users/<user_id>', methods=['GET'])
 def get_user(user_id):
     user = User.query.get_or_404(user_id)
