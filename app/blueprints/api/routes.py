@@ -1,10 +1,14 @@
 from . import bp as api
+from .auth import basic_auth
 from flask import jsonify, request
 from app.models import Post, User
 
-@api.route('/')
+@api.route('/token')
+@basic_auth.login_required
 def index():
-    return 'Hello World'
+    user = basic_auth.current_user()
+    token = user.get_token()
+    return jsonify({'token': token, 'expiration': user.token_expiration})
 
 
 @api.route('/users', methods=['POST'])
